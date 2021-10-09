@@ -1,6 +1,5 @@
 package com.example.sqsreadandwritedybamodb.service;
 
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.document.ItemCollection;
 import com.amazonaws.services.dynamodbv2.document.QueryOutcome;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
@@ -23,9 +22,6 @@ public class CarService {
 
     @Autowired
     private AmazonSQSAsync amazonSQSAsync;
-
-    @Autowired
-    private AmazonDynamoDB amazonDynamoDB;
 
     @Autowired
     private ReceiveMessageRequest receiveMessageRequest;

@@ -64,9 +64,6 @@ public class AmazonSQSController {
     @GetMapping("/findAll")
     public List<Car> findAll() {
         List<Car> lc = carService.findAll();
-        for(Car c : lc) {
-            System.out.println(c.toString());
-        }
         return lc;
     }
 }

@@ -3,6 +3,7 @@ package com.example.sqsreadandwritedybamodb.controller;
 import com.example.sqsreadandwritedybamodb.service.S3Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,33 +13,31 @@ import java.io.File;
 @RequestMapping("/s3")
 public class AmazonS3Controller {
 
-    private static final String BUCKET_NAME = "s3zvyaginbucket";
-    private static final String FILE_NAME = "testFile.pages";
-
     @Autowired
-    S3Service s3Service;
+    private S3Service s3Service;
 
-    @GetMapping("/upload")
-    public void uploadFile() {
-        File file = new File("/Users/maximzvyagin/Downloads/work_in_jaxel/s3TestFile.pages");
-
-        s3Service.uploadFile(BUCKET_NAME, FILE_NAME, file);
+    @GetMapping("/upload/{bucketName}/{fileName}/{absoluteFilePath}")
+    public void uploadFile(@PathVariable(value = "bucketName") String bucketName,
+                           @PathVariable(value = "fileName") String fileName,
+                           @PathVariable(value = "absoluteFilePath") String absoluteFilePath) {
+        s3Service.uploadFile(bucketName, fileName, absoluteFilePath);
     }
 
-    @GetMapping("/delete")
-    public void deleteFile() {
-        s3Service.deleteFile(BUCKET_NAME, FILE_NAME);
+    @GetMapping("/delete/{bucketName}/{fileName}")
+    public void deleteFile(@PathVariable(value = "bucketName") String bucketName,
+                           @PathVariable(value = "fileName") String fileName) {
+        s3Service.deleteFile(bucketName, fileName);
     }
 
-    @GetMapping("/reed")
-    public void readFile() {
-        s3Service.readFile(BUCKET_NAME, FILE_NAME);
+    @GetMapping("/read/{bucketName}/{fileName}")
+    public void readFile(@PathVariable(value = "bucketName") String bucketName,
+                         @PathVariable(value = "fileName") String fileName) {
+        s3Service.readFile(bucketName, fileName);
     }
 
-    @GetMapping("/update")
-    public void updateFile() {
-        File file = new File("/Users/maximzvyagin/Downloads/work_in_jaxel");
-        s3Service.updateFile(BUCKET_NAME, "ss", file, false);
-
+    @GetMapping("/update/{bucketName}/{folderName}")
+    public void updateFile(@PathVariable(value = "bucketName") String bucketName,
+                           @PathVariable(value = "folderName") String folderName) {
+        s3Service.updateFile(bucketName, "ss", folderName, false);
     }
 }

@@ -9,5 +9,5 @@ import java.util.List;
 @EnableScan
 public interface CarCrudRepository extends CrudRepository<Car, String> {
 
-    public List<Car> findByModelAndMaxSpeed(String model, Integer maxSpeed);
+    List<Car> findByModelAndMaxSpeed(String model, Integer maxSpeed);
 }

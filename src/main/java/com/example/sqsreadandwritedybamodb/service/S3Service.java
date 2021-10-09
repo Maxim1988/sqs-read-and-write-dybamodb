@@ -19,8 +19,8 @@ public class S3Service {
     @Autowired
     public AmazonS3Configuration amazonS3Configuration;
 
-    public void uploadFile(String bucketName, String fileName, File file) {
-        amazonS3Configuration.amazonS3client().putObject(bucketName, fileName, file);
+    public void uploadFile(String bucketName, String fileName, String absoluteFilePath) {
+        amazonS3Configuration.amazonS3client().putObject(bucketName, fileName, getFileByString(absoluteFilePath));
     }
 
     public void deleteFile(String bucketName, String fileName) {
@@ -44,10 +44,10 @@ public class S3Service {
         }
     }
 
-    public void updateFile(String bucketName, String filePrefix, File file, boolean recurcive) {
+    public void updateFile(String bucketName, String filePrefix, String folderName, boolean recurcive) {
         TransferManager transferManager = new TransferManager();
         MultipleFileUpload multipleFileUpload = transferManager.uploadDirectory(bucketName, filePrefix,
-                file, recurcive);
+                getFileByString(folderName), recurcive);
         try {
             multipleFileUpload.waitForCompletion();
         } catch (AmazonServiceException e) {
@@ -61,5 +61,9 @@ public class S3Service {
             System.exit(1);
         }
         transferManager.shutdownNow();
+    }
+
+    private File getFileByString(String fileName) {
+        return new File(fileName);
     }
 }
